@@ -53,14 +53,15 @@ if(XD_RC_REGEN)
 
         file(APPEND ${gen_res_file_header}
         "#pragma once\n\n"
-        "#include <array>\n#include <cstdint>\n\n"
+        "#include <array>\n#include <cstdint>\n#include <span>\n\n"
         "namespace XD::RC {\n"
-        "    extern const std::array<uint8_t, ${res_file_size} + 1> ${token};\n"
+        "    extern const std::span<const uint8_t, ${res_file_size}> ${token};\n"
+        # "    extern const std::array<uint8_t, ${res_file_size} + 1> __SRC_${token};\n"
         "}")
         file(APPEND ${gen_res_file}
             "#include \"${token}.h\"\n\n"
             "namespace XD::RC {\n"
-            "    const std::array<uint8_t, ${res_file_size} + 1> ${token} = {\n       ")
+            "    const std::array<uint8_t, ${res_file_size} + 1> __SRC_${token} = {\n       ")
 
         # 读取十六进制数据
         file(READ ${input_src} file_data HEX)
@@ -84,7 +85,9 @@ if(XD_RC_REGEN)
 
         # 写入数据到源/头文件
         file(APPEND ${gen_res_file}
-            " ${suffix}0x0\n    };\n}"
+            " ${suffix}0x0\n    };\n"
+            "    const std::span<const uint8_t, ${res_file_size}> LISAO_TXT(__SRC_${token}.data(), ${res_file_size});\n"
+            "}"
         )
     endforeach()
 endif(XD_RC_REGEN)
