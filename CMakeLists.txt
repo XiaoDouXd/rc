@@ -86,7 +86,7 @@ if(XD_RC_REGEN)
         # 写入数据到源/头文件
         file(APPEND ${gen_res_file}
             " ${suffix}0x0\n    };\n"
-            "    const std::span<const uint8_t, ${res_file_size}> LISAO_TXT(__SRC_${token}.data(), ${res_file_size});\n"
+            "    const std::span<const uint8_t, ${res_file_size}> ${token}(__SRC_${token}.data(), ${res_file_size});\n"
             "}"
         )
     endforeach()
@@ -95,7 +95,4 @@ endif(XD_RC_REGEN)
 file(GLOB_RECURSE GEN_RES_FILES "gen/*.cpp" "gen/*.c" "gen/*.h" "gen/*.hpp")
 include_directories(${PROJECT_NAME} ./gen ./gen/include)
 add_library(${PROJECT_NAME} STATIC ${GEN_RES_FILES})
-target_include_directories(${PROJECT_NAME} PUBLIC ${GEN_RES_OUTPUT_HDR_DIR})
-target_include_directories(${PROJECT_NAME} PUBLIC ./gen/include_in)
-
-
+target_include_directories(${PROJECT_NAME} PUBLIC ${GEN_RES_OUTPUT_HDR_DIR_XD})
