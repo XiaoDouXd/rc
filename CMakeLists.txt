@@ -47,6 +47,7 @@ if(XD_RC_REGEN)
         # 把所有非标识符字符替换为 "_"
         string(MAKE_C_IDENTIFIER ${res_file} token)
         string(TOUPPER ${token} token)
+        string(SUBSTRING ${token} 4 -1 token)
         set(gen_res_file        "${GEN_RES_OUTPUT_SRC_DIR_XD}/${token}.cpp")
         set(gen_res_file_header "${GEN_RES_OUTPUT_HDR_DIR_XD}/${token}.h")
 
@@ -54,12 +55,12 @@ if(XD_RC_REGEN)
         "#pragma once\n\n"
         "#include <array>\n#include <cstdint>\n\n"
         "namespace XD::RC {\n"
-        "    extern const std::array<uint8_t, ${res_file_size}> XD_IN_RC_${token};\n"
+        "    extern const std::array<uint8_t, ${res_file_size} + 1> ${token};\n"
         "}")
         file(APPEND ${gen_res_file}
             "#include \"${token}.h\"\n\n"
             "namespace XD::RC {\n"
-            "    const std::array<uint8_t, ${res_file_size}> XD_IN_RC_${token} = {\n       ")
+            "    const std::array<uint8_t, ${res_file_size} + 1> ${token} = {\n       ")
 
         # 读取十六进制数据
         file(READ ${input_src} file_data HEX)
@@ -83,7 +84,7 @@ if(XD_RC_REGEN)
 
         # 写入数据到源/头文件
         file(APPEND ${gen_res_file}
-            " ${suffix}// 到此结束\n    };\n}"
+            " ${suffix}0x0\n    };\n}"
         )
     endforeach()
 endif(XD_RC_REGEN)
