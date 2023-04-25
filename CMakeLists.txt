@@ -54,13 +54,13 @@ if(XD_RC_REGEN)
         file(APPEND ${gen_res_file_header}
         "#pragma once\n\n"
         "#include <array>\n#include <cstdint>\n#include <span>\n\n"
-        "namespace XD::RC {\n"
+        "namespace RC {\n"
         "    extern const std::span<const uint8_t, ${res_file_size}> ${token};\n"
         # "    extern const std::array<uint8_t, ${res_file_size} + 1> __SRC_${token};\n"
         "}")
         file(APPEND ${gen_res_file}
             "#include \"${token}.h\"\n\n"
-            "namespace XD::RC {\n"
+            "namespace RC {\n"
             "    const std::array<uint8_t, ${res_file_size} + 1> __SRC_${token} = {\n       ")
 
         # 读取十六进制数据
