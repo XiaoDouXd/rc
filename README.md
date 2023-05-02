@@ -1,7 +1,7 @@
 # rc - C++ CMake 静态资源导入小记
 
 #### 介绍
-C++ CMake 静态资源导入小例
+C++ CMake 静态资源导入小记
 
 #### 使用方法
 - 引入：将项目放到名为 rc 的文件目录中，然后在上级 CMakeLists 中加入 add_subdirectory(rc)。
