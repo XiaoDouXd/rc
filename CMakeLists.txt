@@ -32,7 +32,9 @@ if(XD_RC_REGEN)
         # 把所有非标识符字符替换为 "_"
         string(MAKE_C_IDENTIFIER ${res_file} token)
         string(TOUPPER ${token} token)
-        string(SUBSTRING ${token} 4 -1 token)
+        if (NOT ${token} STREQUAL "LICENSE")
+            string(SUBSTRING ${token} 4 -1 token)
+        endif()
         set(gen_res_file        "${GEN_RES_OUTPUT_SRC_DIR_XD}/${token}.cpp")
         set(gen_res_file_header "${GEN_RES_OUTPUT_HDR_DIR_XD}/${token}.h")
 
